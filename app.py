@@ -51,16 +51,24 @@ expl = st.expander(label="More info")
 with expl:
     st.write(info.explainer)
 
-# Ask for nodes file.
-csv_nodes = st.file_uploader(
-    label="Upload file with **nodes** (if you have one).", key="nodes", help=f'[Example]({info.node_example})'
-)
+with st.form("files"):
+    # Ask for nodes file.
+    csv_nodes = st.file_uploader(
+        label="Upload file with **nodes** (if you have one).", key="nodes", help=f'[Example]({info.node_example})'
+    )
 
-# Ask for relations file.
-csv_edges = st.file_uploader(label="Upload file with **relations**.", key="relations", help=f'[Example]({info.relations_example})')
+    # Ask for relations file.
+    csv_edges = st.file_uploader(label="Upload file with **relations**.", key="relations", help=f'[Example]({info.relations_example})')
 
-if csv_edges is not None:
-    df = pd.read_csv(csv_edges)
+    sep = st.radio('Separator in your files:', options=[',', ';', 'tab'])
+    if sep == 'tab':
+        sep='\t'
+    
+    files_uploaded = st.form_submit_button("Ok")
+
+if files_uploaded:
+    df = pd.read_csv(csv_edges, sep=sep)
+
     df.rename({'type': 'relation_type'}, inplace=True, axis=1) # 'type' can't be used as attribute.
     df.columns = [i.lower() for i in df.columns] # Remove capital letters from column names.
     columns = df.columns.tolist()
@@ -73,6 +81,7 @@ if csv_edges is not None:
             columns.append("")
             preselected_target = len(columns) - 1
 
+        print(columns)
         st.session_state["target"] = st.selectbox(
             label="Which one is the target column?",
             options=columns,
@@ -104,7 +113,7 @@ if csv_edges is not None:
         )
 
         if csv_nodes != None: # When a nodes file is uploaded.
-            df_nodes = pd.read_csv(csv_nodes, sep=";")
+            df_nodes = pd.read_csv(csv_nodes, sep=sep)
             df_nodes.columns = [i.lower() for i in df_nodes.columns] # Remove capital letters from column names.
             columns = df_nodes.columns.tolist()
             if "label" in columns:
@@ -127,20 +136,20 @@ if csv_edges is not None:
             df_nodes.set_index("labels", inplace=True)
 
         gexf_file = "output.gexf"
-        with open(gexf_file) as f:
-            # Make empty graph.
-            G = nx.MultiDiGraph()
-            # Add nodes.
-            G = add_nodes(G, df_nodes)
-            # Add edges.
-            G = add_edges(
-                G, df, source=source, target=target, chosen_columns=chosen_columns
-            )
+        #with open(gexf_file) as f:
+        # Make empty graph.
+        G = nx.MultiDiGraph()
+        # Add nodes.
+        G = add_nodes(G, df_nodes)
+        # Add edges.
+        G = add_edges(
+            G, df, source=source, target=target, chosen_columns=chosen_columns
+        )
 
-            # Turn the graph into text.
-            graph_text = "\n".join([line for line in nx.generate_gexf(G)])
-            
-            # Download gexf-file.
-            st.download_button(
-                "Download gexf-file", graph_text, file_name=gexf_file
-            )
+        # Turn the graph into text.
+        graph_text = "\n".join([line for line in nx.generate_gexf(G)])
+        
+        # Download gexf-file.
+        st.download_button(
+            "Download gexf-file", graph_text, file_name=gexf_file
+        )
