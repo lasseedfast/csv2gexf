@@ -4,8 +4,8 @@ relations_example = 'https://gist.githubusercontent.com/lasseedfast/c8548d13202d
 
 # Make links grey/black.
 css = """<style>
-a:link {color: black;}
-a:visited {color: black;}
+a:link {color: grey;}
+a:visited {color: grey;}
 a:hover {color: grey;}
 </style>
 """

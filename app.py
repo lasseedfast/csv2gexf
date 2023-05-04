@@ -34,9 +34,9 @@ def add_nodes(G, df):
     G.add_nodes_from(nodes)
     return G
 
-# Set CSS.
+# Set oage config and CSS.
+st.set_page_config(page_title='CSV→GEXF', page_icon='🎭')
 st.markdown(info.css, unsafe_allow_html=True)
-
 # Print title.
 st.title("Make :green[GEXF] from :red[CSV]")
 
@@ -87,7 +87,6 @@ if files_uploaded:
             columns.append("")
             preselected_target = len(columns) - 1
 
-        print(columns)
         st.session_state["target"] = st.selectbox(
             label="Which one is the target column?",
             options=columns,
@@ -101,6 +100,7 @@ if files_uploaded:
         else:
             columns.append("")
             preselected_source = len(columns) - 1
+        
         st.session_state["source"] = st.selectbox(
             label="Which one is the source column?",
             options=columns,
@@ -141,7 +141,6 @@ if files_uploaded:
             )
             df_nodes.set_index("labels", inplace=True)
 
-        gexf_file = "output.gexf"
 
         # Make empty graph.
         G = nx.MultiDiGraph()
@@ -156,6 +155,7 @@ if files_uploaded:
         graph_text = "\n".join([line for line in nx.generate_gexf(G)])
         
         # Download gexf-file.
+        gexf_file = "output.gexf"
         st.download_button(
             "Download gexf-file", graph_text, file_name=gexf_file
         )
