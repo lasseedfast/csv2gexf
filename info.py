@@ -16,5 +16,5 @@ explainer = f"""
     to the source/target column in the relations file.  
     If you use *source*, *target* and *label* in your files the process here is almost automatic (see examples).  
     Examples for [relation file]({relations_example}) and [node file]({node_example}).  
-    *No data is stored.* Made by [Lasse Edfast](https://lasseedfast.se). 
+    *No data is stored*, check [code on Github](https://github.com/lasseedfast/csv2gexf). Made by [Lasse Edfast](https://lasseedfast.se). 
     """
