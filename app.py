@@ -107,7 +107,6 @@ try:
 
 
     files_uploaded = st.button('Done', 'files_uploaded')
-    print(st.session_state['files_uploaded'])
 
     if files_uploaded or 'files_already_uploaded' in st.session_state:
         st.session_state['files_already_uploaded'] = True
@@ -116,7 +115,6 @@ try:
             st.markdown(':red[You need to upload a file with relations.]')
             st.stop()
 
-        print('SEP', st.session_state["sep"])
         try:
             df = pd.read_csv(csv_edges, sep=st.session_state["sep"])
         except pd.errors.EmptyDataError:
