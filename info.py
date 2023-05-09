@@ -1,6 +1,6 @@
 # URL to gist files.
 node_example = 'https://gist.githubusercontent.com/lasseedfast/1d43f23da417d64c34d304048ff58b70/raw/64b68b32318b18cfb69a509f9285f6fd0cfc4af0/nodes_example.csv'
-relations_example = 'https://gist.githubusercontent.com/lasseedfast/c8548d13202d434e6801c3eed70d0586/raw/71da6a4d5a2129c5a55b8a656d53d7dddebb7ae4/relations_example.csv'
+relations_example = 'https://gist.githubusercontent.com/lasseedfast/c8548d13202d434e6801c3eed70d0586/raw/72bccc5d4b089c35620c00863aedad7ca3265627/relations_example.csv'
 
 # Make links grey/black.
 css = """<style>
