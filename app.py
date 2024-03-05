@@ -55,14 +55,14 @@ def find_columns(column, columns):
 
 
 # Set oage config and CSS.
-st.set_page_config(page_title='CSV→GEXF', page_icon='🎭')
+st.set_page_config(page_title='CSV→Gephi', page_icon='🎭')
 st.markdown(info.css, unsafe_allow_html=True)
 # Print title.
-st.title("Make :green[GEXF] from :red[CSV]")
+st.title("Make :green[Gephi] from :red[CSV]")
 
 # Print tagline.
 st.markdown(
-    """*Upload your data as CSV to make it into a gexf-file compatible 
+    """*Upload your data as CSV to make it into a GraphML-file compatible 
     with Gephi and [Gephi Light](https://gephi.org/gephi-lite/).*"""
 )
 
@@ -80,7 +80,7 @@ csv_nodes = st.file_uploader(
 )
 
 # Ask for relations file.
-csv_edges = st.file_uploader(label="Upload file with **relations**.", key="relations", help=f'[Example]({info.relations_example})')
+csv_edges = st.file_uploader(label="Upload file with **edges/relations**.", key="relations", help=f'[Example]({info.relations_example})')
 
 col1, col2 = st.columns([1,2])
 
@@ -184,12 +184,12 @@ if files_uploaded or 'files_already_uploaded' in st.session_state:
         )
 
         # Turn the graph into a string.
-        graph_text = "\n".join([line for line in nx.generate_gexf(G)])
+        graph_text = "\n".join([line for line in nx.generate_graphml(G)])
         
-        # Download gexf-file.
-        gexf_file = "output.gexf"
+        # Download graphml-file.
+        graphml_file = "output.graphml"
         st.download_button(
-            "Download gexf-file", graph_text, file_name=gexf_file
+            "Download grampml-file", graph_text, file_name=graphml_file
         )
         st.write('Import the file to Gephi/Gephi Light, or try [Gephisto](https://jacomyma.github.io/gephisto/) to get an idea of the network.')
 
